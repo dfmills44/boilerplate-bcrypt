@@ -2,6 +2,7 @@
 const express     = require('express');
 const bodyParser  = require('body-parser');
 const fccTesting  = require('./freeCodeCamp/fcctesting.js');
+let bcrypt = require('bcrypt');
 const app         = express();
 fccTesting(app);
 const saltRounds = 12;
@@ -10,14 +11,21 @@ const someOtherPlaintextPassword = 'pass123';
 
 
 //START_ASYNC -do not remove notes, place code between correct pair of notes.
+bcrypt.hash(myPlaintextPassword, saltRounds, (err, hash) => {
+  console.log(hash);
 
+  bcrypt.compare(myPlaintextPassword, hash, (err, res) => {
+    console.log(res);
+  })
+})
 
 
 //END_ASYNC
 
 //START_SYNC
+let hash = bcrypt.hashSync(myPlaintextPassword, saltRounds);
 
-
+let result = bcrypt.compareSync(myPlaintextPassword, hash);
 
 //END_SYNC
 
